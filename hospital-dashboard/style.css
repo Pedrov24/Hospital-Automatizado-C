@@ -1,0 +1,417 @@
+:root {
+    --bg-dark: #0f172a;
+    --bg-glass: rgba(30, 41, 59, 0.7);
+    --bg-glass-dark: rgba(15, 23, 42, 0.6);
+    --border-glass: rgba(255, 255, 255, 0.1);
+    
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --color-red: #ef4444;    /* Prioridade 1 */
+    --color-orange: #f97316; /* Prioridade 2 */
+    --color-blue: #3b82f6;   /* Prioridade 3 */
+    --color-green: #10b981;  /* Livre/Sucesso */
+    --color-yellow: #eab308; /* Aguardando */
+    
+    --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(239, 68, 68, 0.1) 0px, transparent 50%);
+    color: var(--text-main);
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px 30px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-glow);
+}
+
+header h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+header h1 span {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-blue);
+    margin-top: 4px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn {
+    background: var(--color-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.btn.paused {
+    background: var(--color-red);
+}
+
+.stats {
+    background: var(--bg-glass-dark);
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-glass);
+    font-weight: 600;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr 350px;
+    gap: 24px;
+    height: calc(100vh - 140px);
+}
+
+.glass {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.glass-dark {
+    background: var(--bg-glass-dark);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.panel-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.panel-header h2 span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.badge {
+    background: var(--bg-glass-dark);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid var(--border-glass);
+}
+
+/* Triagem */
+.queue-container {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 5px;
+}
+
+.queue-container::-webkit-scrollbar {
+    width: 6px;
+}
+.queue-container::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+}
+
+.paciente-card {
+    background: var(--bg-glass-dark);
+    border-left: 4px solid var(--text-muted);
+    padding: 15px;
+    border-radius: 8px;
+    animation: slideIn 0.3s ease-out forwards;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.paciente-card:hover {
+    transform: translateX(4px);
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; transform: translateX(20px) scale(0.9); }
+}
+
+.paciente-card.removing {
+    animation: fadeOut 0.4s ease-in forwards;
+}
+
+.paciente-info h4 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.paciente-info p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.paciente-prioridade {
+    font-size: 1.5rem;
+    font-weight: 800;
+    opacity: 0.8;
+}
+
+/* Cores de Triagem */
+.prio-1 { border-left-color: var(--color-red); }
+.prio-1 .paciente-prioridade { color: var(--color-red); }
+
+.prio-2 { border-left-color: var(--color-orange); }
+.prio-2 .paciente-prioridade { color: var(--color-orange); }
+
+.prio-3 { border-left-color: var(--color-blue); }
+.prio-3 .paciente-prioridade { color: var(--color-blue); }
+
+/* Center Column */
+.center-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Maqueiro */
+.maqueiro-panel {
+    flex: 0 0 auto;
+}
+
+.maqueiro-status {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+}
+
+.maqueiro-status .icon {
+    font-size: 3rem;
+    background: var(--bg-glass-dark);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid var(--border-glass);
+    transition: all 0.3s;
+}
+
+.maqueiro-status.active .icon {
+    border-color: var(--color-blue);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.maqueiro-status h3 {
+    font-size: 1.4rem;
+    color: var(--color-green);
+    margin-bottom: 5px;
+}
+
+.maqueiro-status.active h3 {
+    color: var(--color-blue);
+}
+
+.maqueiro-status p {
+    color: var(--text-muted);
+}
+
+/* Consultórios */
+.consultorios-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    flex: 1;
+}
+
+.consultorio {
+    display: flex;
+    flex-direction: column;
+}
+
+.status-indicator {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-green);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    transition: all 0.3s;
+}
+
+.status-indicator.ocupado {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-red);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.status-indicator.aguardando {
+    background: rgba(234, 179, 8, 0.1);
+    color: var(--color-yellow);
+    border-color: rgba(234, 179, 8, 0.2);
+}
+
+.patient-slot {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-glass-dark);
+    border-radius: 12px;
+    border: 2px dashed var(--border-glass);
+    transition: all 0.3s;
+    min-height: 150px;
+}
+
+.patient-slot.filled {
+    border-style: solid;
+    border-color: var(--border-glass);
+}
+
+.empty-text {
+    color: var(--text-muted);
+    font-weight: 600;
+    opacity: 0.5;
+}
+
+/* Recuperação */
+.beds-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.bed {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bed-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.bed .patient-slot {
+    min-height: 80px;
+}
+
+.logs-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-glass-dark);
+    border-radius: 12px;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.logs-container h3 {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.logs-container ul {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 5px;
+}
+
+.logs-container ul::-webkit-scrollbar {
+    width: 4px;
+}
+.logs-container ul::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+}
+
+.logs-container li {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    padding-left: 10px;
+    position: relative;
+}
+
+.logs-container li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-blue);
+}

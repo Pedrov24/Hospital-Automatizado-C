@@ -40,3 +40,9 @@ Essa solução não exige instalação de pacotes complexos (Node.js/NPM).
 
 **Observações:** 
 As lógicas desenvolvidas neste projeto focam em respeitar e comprovar teorias de Sistemas de Tempo Real (STR) baseadas em modelagem do AnyLogic.
+
+### Membros do Grupo
+- Pedro Vinicius; 
+- Pedro Henrique Gomes;
+- Vittor Gomes.
+

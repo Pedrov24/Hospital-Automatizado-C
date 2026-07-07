@@ -25,19 +25,15 @@ Para permitir uma observação visual amigável do sistema sem depender dos logs
 
 ### Estrutura
 - `index.html`: A estrutura com o painel de Triagem, Maqueiro, Consultórios e Recuperação.
-- `style.css`: Toda a estilização moderna com micro-animações (ex: o ícone do maqueiro).
 - `main.js`: Implementação das regras determinísticas da simulação através do `setInterval` e `setTimeout`, conectadas em tempo real ao DOM.
 
 ### Como Rodar:
 Essa solução não exige instalação de pacotes complexos (Node.js/NPM).
-1. Navegue até a pasta `hospital-dashboard`.
-2. Dê um duplo clique no arquivo `index.html` para abrir diretamente no seu navegador.
-3. Aproveite a interface e acompanhe o comportamento das filas de prioridade e do maqueiro dinamicamente!
+1. Vá até a pasta `hospital-dashboard`.
+2. Dois cliques `index.html` para abrir diretamente no seu navegador.
+3. Será demonstrada uma interface que mostra o fluxo do código!
 
 ---
-
-**Observações:** 
-As lógicas desenvolvidas neste projeto focam em respeitar e comprovar teorias de Sistemas de Tempo Real (STR) baseadas em modelagem do AnyLogic.
 
 ### Membros do Grupo
 - Pedro Vinicius; 

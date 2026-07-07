@@ -1,8 +1,6 @@
 # Projeto Hospital Automatizado com Maqueiro Compartilhado
 
-Este repositório contém a implementação do sistema de simulação **Hospital Automatizado**, adaptado a partir do modelo AnyLogic para duas soluções distintas:
-1. **Simulação em C (Terminal):** Modelagem rigorosa de concorrência com Threads.
-2. **Dashboard Web (Visual):** Uma interface interativa em tempo real (Vanilla JS).
+Este repositório contém a implementação do sistema de simulação **Hospital Automatizado**, adaptado a partir do modelo AnyLogic.
 
 ## 1. Simulação em C (`hospital_automatizado.c`)
 A implementação em C utiliza a **Windows API** (`<windows.h>`) para gerenciar as *Threads* e a sincronização do ambiente de concorrência, prevenindo problemas clássicos de sistemas operacionais como *Deadlock* e *Starvation*.

@@ -139,12 +139,6 @@ gcc hospital_automatizado_interface_Linux.c -o hospital_interface_linux -pthread
 
 Na interface, pressione `q` para encerrar.
 
-## Relação com o enunciado
-
-O PDF do projeto descreve os riscos que o sistema precisa tratar: conflito de atendimento, superlotação da recuperação, deadlock e starvation. A implementação responde a esses pontos com uma organização baseada em estados, filas e prioridade de tarefas.
-
-O maqueiro nunca transporta mais de um paciente por vez, a recuperação respeita o limite de dois leitos e os consultórios só recebem novos pacientes depois que o paciente anterior foi removido. Assim, a simulação representa o comportamento esperado de um hospital automatizado com um recurso compartilhado crítico.
-
 ## Observações
 O arquivo `hospital_automatizado.c` foi pensado para ambiente Windows, pois depende de `<windows.h>`. Para Linux, use as versões com sufixo `_Linux.c`. Já o dashboard web pode ser aberto em qualquer navegador moderno. Os arquivos `.exe` incluídos são executáveis já compilados para Windows.
 

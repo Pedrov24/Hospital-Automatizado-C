@@ -1,41 +1,153 @@
 # Projeto Hospital Automatizado com Maqueiro Compartilhado
 
-Este repositório contém a implementação do sistema de simulação **Hospital Automatizado**, adaptado a partir do modelo AnyLogic.
+Este projeto simula o fluxo de pacientes em uma unidade hospitalar com dois consultórios, uma sala de recuperação limitada e um único maqueiro compartilhado. A proposta vem de um problema de Sistemas de Tempo Real: coordenar recursos concorrentes sem gerar superlotação, bloqueio operacional ou espera injusta.
 
-## 1. Simulação em C (`hospital_automatizado.c`)
-A implementação em C utiliza a **Windows API** (`<windows.h>`) para gerenciar as *Threads* e a sincronização do ambiente de concorrência, prevenindo problemas clássicos de sistemas operacionais como *Deadlock* e *Starvation*.
+A solução foi construída em duas versões complementares:
 
-### Arquitetura de Threads:
-- **Thread Triagem:** Gera pacientes com classificações probabilísticas (Vermelho, Laranja, Azul) e insere na fila de prioridades obedecendo a fórmula `prioridade * 100000 + tempo()`.
-- **Thread Maqueiro:** O recurso compartilhado do sistema. Move os pacientes da triagem para os consultórios, e dos consultórios para a recuperação. Sua rotina prioriza liberar consultórios ocupados para evitar bloqueio do sistema.
-- **Threads Consultórios (C1 e C2):** Representam os médicos atendendo (captura o paciente, aguarda o tempo estocástico de atendimento, libera).
-- **Thread Recuperação:** Libera os pacientes de tempos em tempos (Alta).
+- uma simulação em C, focada na lógica de concorrência, threads e sincronização;
+- versões em C para Linux, usando `pthread` e, opcionalmente, `ncurses`;
+- um dashboard web, feito em HTML, CSS e JavaScript, para visualizar o comportamento do sistema em tempo real.
 
-### Como Compilar e Rodar:
-No seu terminal (ex: MSYS2, MinGW ou Git Bash no Windows):
-```bash
-gcc hospital_automatizado.c -o hospital.exe.\hospital.exe
+## Problema modelado
+
+O cenário do hospital possui três partes principais:
+
+- **Consultórios 1 e 2:** atendem um paciente por vez. Depois do atendimento, o paciente permanece no consultório até ser removido pelo maqueiro.
+- **Maqueiro automatizado:** é o recurso compartilhado do sistema. Ele só transporta um paciente por vez e precisa decidir qual tarefa executar primeiro.
+- **Sala de recuperação:** possui apenas dois leitos. Se estiver cheia, nenhum novo paciente pode ser acomodado até que alguém receba alta.
+
+O desafio é manter o hospital funcionando sem deixar consultórios travados, sem colocar pacientes em uma recuperação cheia e sem permitir que um consultório ou paciente espere indefinidamente.
+
+## Solução construída
+
+A lógica implementada usa uma política simples e segura: o maqueiro dá prioridade para remover pacientes que já concluíram o atendimento. Isso libera consultórios rapidamente e reduz o risco de bloqueio do sistema.
+
+Quando não há pacientes aguardando saída dos consultórios, o maqueiro busca o próximo paciente da triagem e o leva para um consultório livre. A fila da triagem é ordenada por prioridade clínica:
+
+1. **Vermelho:** maior prioridade;
+2. **Laranja:** prioridade intermediária;
+3. **Azul:** menor prioridade.
+
+Pacientes com a mesma prioridade são organizados pelo tempo de chegada, preservando uma lógica parecida com FIFO dentro de cada grupo.
+
+## Estrutura do projeto
+
+```text
+.
++-- README.md
++-- Projeto 1  STR.pdf
++-- hospital_automatizado.c
++-- hospital_automatizado_Linux.c
++-- hospital_automatizado_interface_Linux.c
++-- hospital_automatizado.exe
++-- hospital.exe
++-- hospital-dashboard/
+    +-- index.html
+    +-- main.js
+    +-- style.css
 ```
 
----
+## Simulação em C
 
-## 2. Dashboard Web (`hospital-dashboard/`)
+O arquivo `hospital_automatizado.c` implementa a versão mais próxima do conteúdo de Sistemas de Tempo Real. Ele usa a API do Windows para criar threads e coordenar o acesso aos recursos compartilhados.
 
-### Estrutura
-- `index.html`: A estrutura com o painel de Triagem, Maqueiro, Consultórios e Recuperação.
-- `main.js`: Implementação das regras determinísticas da simulação através do `setInterval` e `setTimeout`, conectadas em tempo real ao DOM.
+Principais elementos:
 
-### Como Rodar:
-Essa solução não exige instalação de pacotes complexos .
-1. Vá até a pasta `hospital-dashboard`.
-2. Dois cliques `index.html` para abrir diretamente no seu navegador.
-3. Será demonstrada uma interface que mostra o fluxo do código!
+- **Thread de triagem:** cria pacientes continuamente, define a classificação de risco e insere cada paciente na fila de prioridade.
+- **Thread do maqueiro:** decide entre liberar consultórios ou levar pacientes da triagem para atendimento.
+- **Threads dos consultórios:** simulam o atendimento médico nos consultórios 1 e 2.
+- **Thread de recuperação:** libera leitos periodicamente, representando a alta de pacientes.
+- **Sincronização:** usa `CRITICAL_SECTION` e `CONDITION_VARIABLE` para evitar acessos simultâneos indevidos ao estado do hospital.
 
----
-## Hospital Automatizado Versão Linux
+### Como compilar
+
+No Windows, usando GCC/MinGW:
+
 ```bash
-gcc -pthread hospital_automatizado.c -o hospital_automatizado
+gcc hospital_automatizado.c -o hospital.exe
 ```
+
+### Como executar
+
+```bash
+.\hospital.exe
+```
+
+Para encerrar a simulação, use `Ctrl + C`.
+
+## Dashboard web
+
+A pasta `hospital-dashboard` contém uma versão visual da simulação. Ela não substitui a implementação concorrente em C, mas ajuda a entender o fluxo do sistema de forma mais intuitiva.
+
+Na tela é possível acompanhar:
+
+- a fila de triagem ordenada por prioridade;
+- o estado atual do maqueiro;
+- a ocupação dos dois consultórios;
+- os dois leitos da recuperação;
+- o total de pacientes atendidos;
+- um histórico das últimas ações.
+
+### Como abrir
+
+Não é necessário instalar dependências. Basta abrir o arquivo:
+
+```text
+hospital-dashboard/index.html
+```
+
+O dashboard roda direto no navegador.
+
+## Versões para Linux
+
+Para computadores Linux, os arquivos recomendados são:
+
+- `hospital_automatizado_Linux.c`: versão de terminal com `pthread`;
+- `hospital_automatizado_interface_Linux.c`: versão com interface no terminal usando `ncurses`.
+
+### Compilar a versão simples
+
+```bash
+gcc hospital_automatizado_Linux.c -o hospital_linux -pthread
+```
+
+### Executar a versão simples
+
+```bash
+./hospital_linux
+```
+
+### Compilar a versão com interface
+
+Em distribuições Debian/Ubuntu, pode ser necessário instalar a biblioteca de desenvolvimento do ncurses:
+
+```bash
+sudo apt install libncurses-dev
+```
+
+Depois, compile com:
+
+```bash
+gcc hospital_automatizado_interface_Linux.c -o hospital_interface_linux -pthread -lncurses
+```
+
+### Executar a versão com interface
+
+```bash
+./hospital_interface_linux
+```
+
+Na interface, pressione `q` para encerrar.
+
+## Relação com o enunciado
+
+O PDF do projeto descreve os riscos que o sistema precisa tratar: conflito de atendimento, superlotação da recuperação, deadlock e starvation. A implementação responde a esses pontos com uma organização baseada em estados, filas e prioridade de tarefas.
+
+O maqueiro nunca transporta mais de um paciente por vez, a recuperação respeita o limite de dois leitos e os consultórios só recebem novos pacientes depois que o paciente anterior foi removido. Assim, a simulação representa o comportamento esperado de um hospital automatizado com um recurso compartilhado crítico.
+
+## Observações
+O arquivo `hospital_automatizado.c` foi pensado para ambiente Windows, pois depende de `<windows.h>`. Para Linux, use as versões com sufixo `_Linux.c`. Já o dashboard web pode ser aberto em qualquer navegador moderno. Os arquivos `.exe` incluídos são executáveis já compilados para Windows.
+
 ### Membros do Grupo
 - Pedro Vinicius; 
 - Pedro Henrique Gomes;

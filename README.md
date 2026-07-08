@@ -1,5 +1,4 @@
 # Projeto Hospital Automatizado com Maqueiro Compartilhado
-
 Este projeto simula o fluxo de pacientes em uma unidade hospitalar com dois consultórios, uma sala de recuperação limitada e um único maqueiro compartilhado. A proposta vem de um problema de Sistemas de Tempo Real: coordenar recursos concorrentes sem gerar superlotação, bloqueio operacional ou espera injusta.
 
 A solução foi construída em duas versões complementares:
@@ -20,7 +19,7 @@ O desafio é manter o hospital funcionando sem deixar consultórios travados, se
 
 ## Solução construída
 
-A lógica implementada usa uma política de semáforos: o maqueiro dá prioridade para remover pacientes que já concluíram o atendimento. Isso libera consultórios rapidamente e reduz o risco de bloqueio do sistema.
+A lógica implementada usa uma política de semáforos : o maqueiro dá prioridade para remover pacientes que já concluíram o atendimento. Isso libera consultórios rapidamente e reduz o risco de bloqueio do sistema.
 
 Quando não há pacientes aguardando saída dos consultórios, o maqueiro busca o próximo paciente da triagem e o leva para um consultório livre. A fila da triagem é ordenada por prioridade clínica:
 
@@ -35,6 +34,7 @@ Pacientes com a mesma prioridade são organizados pelo tempo de chegada, preserv
 ```text
 .
 +-- README.md
++-- servidor_dashboard.py
 +-- hospital_automatizado.c
 +-- hospital_automatizado_Linux.c
 +-- hospital_automatizado_interface_Linux.c
@@ -63,16 +63,14 @@ Principais elementos:
 No Windows, usando GCC/MinGW:
 
 ```bash
-gcc hospital_automatizado.c -o hospital.exe
+gcc hospital_automatizado.c -o hospital_automatizado.exe
 ```
 
 ### Como executar
 
 ```bash
-.\hospital.exe
+.\hospital_automatizado.exe
 ```
-
-Para encerrar a simulação, use `Ctrl + C`.
 
 ## Dashboard web
 
@@ -87,19 +85,9 @@ Na tela é possível acompanhar:
 - o total de pacientes atendidos;
 - um histórico das últimas ações.
 
-### Como abrir
-
-Não é necessário instalar dependências. Basta abrir o arquivo:
-
-```text
-hospital-dashboard/index.html
-```
-
-O dashboard roda direto no navegador.
 
 ## Versões para Linux
-
-Para computadores Linux, os arquivos recomendados são:
+Para Linux, os arquivos recomendados são:
 
 - `hospital_automatizado_Linux.c`: versão de terminal com `pthread`;
 - `hospital_automatizado_interface_Linux.c`: versão com interface no terminal usando `ncurses`.
@@ -136,9 +124,10 @@ gcc hospital_automatizado_interface_Linux.c -o hospital_interface_linux -pthread
 ./hospital_interface_linux
 ```
 
-Na interface, pressione `q` para encerrar.
+Na interface, pressione `q` para encerrar. Ao iniciar, essa versão também tenta abrir o dashboard automaticamente no navegador.
 
 ## Observações
+
 O arquivo `hospital_automatizado.c` foi pensado para ambiente Windows, pois depende de `<windows.h>`. Para Linux, use as versões com sufixo `_Linux.c`. Já o dashboard web pode ser aberto em qualquer navegador moderno. Os arquivos `.exe` incluídos são executáveis já compilados para Windows.
 
 ### Membros do Grupo

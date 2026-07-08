@@ -14,8 +14,7 @@ A implementação em C utiliza a **Windows API** (`<windows.h>`) para gerenciar 
 ### Como Compilar e Rodar:
 No seu terminal (ex: MSYS2, MinGW ou Git Bash no Windows):
 ```bash
-gcc hospital_automatizado.c -o hospital.exe
-.\hospital.exe
+gcc hospital_automatizado.c -o hospital.exe.\hospital.exe
 ```
 
 ---
@@ -34,7 +33,10 @@ Essa solução não exige instalação de pacotes complexos (Node.js/NPM).
 3. Será demonstrada uma interface que mostra o fluxo do código!
 
 ---
-
+## Hospital Automatizado Versão Linux
+```bash
+gcc -pthread hospital_automatizado.c -o hospital_automatizado
+```
 ### Membros do Grupo
 - Pedro Vinicius; 
 - Pedro Henrique Gomes;

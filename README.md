@@ -35,7 +35,6 @@ Pacientes com a mesma prioridade são organizados pelo tempo de chegada, preserv
 ```text
 .
 +-- README.md
-+-- Projeto 1  STR.pdf
 +-- hospital_automatizado.c
 +-- hospital_automatizado_Linux.c
 +-- hospital_automatizado_interface_Linux.c

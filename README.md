@@ -20,14 +20,13 @@ gcc hospital_automatizado.c -o hospital.exe.\hospital.exe
 ---
 
 ## 2. Dashboard Web (`hospital-dashboard/`)
-Para permitir uma observação visual amigável do sistema sem depender dos logs em console, o projeto conta com uma versão visual rica feita puramente em HTML, CSS (com estética *Glassmorphism* e Dark Mode) e JavaScript.
 
 ### Estrutura
 - `index.html`: A estrutura com o painel de Triagem, Maqueiro, Consultórios e Recuperação.
 - `main.js`: Implementação das regras determinísticas da simulação através do `setInterval` e `setTimeout`, conectadas em tempo real ao DOM.
 
 ### Como Rodar:
-Essa solução não exige instalação de pacotes complexos (Node.js/NPM).
+Essa solução não exige instalação de pacotes complexos .
 1. Vá até a pasta `hospital-dashboard`.
 2. Dois cliques `index.html` para abrir diretamente no seu navegador.
 3. Será demonstrada uma interface que mostra o fluxo do código!

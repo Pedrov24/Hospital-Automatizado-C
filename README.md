@@ -20,7 +20,7 @@ O desafio é manter o hospital funcionando sem deixar consultórios travados, se
 
 ## Solução construída
 
-A lógica implementada usa uma política simples e segura: o maqueiro dá prioridade para remover pacientes que já concluíram o atendimento. Isso libera consultórios rapidamente e reduz o risco de bloqueio do sistema.
+A lógica implementada usa uma política de semáforos: o maqueiro dá prioridade para remover pacientes que já concluíram o atendimento. Isso libera consultórios rapidamente e reduz o risco de bloqueio do sistema.
 
 Quando não há pacientes aguardando saída dos consultórios, o maqueiro busca o próximo paciente da triagem e o leva para um consultório livre. A fila da triagem é ordenada por prioridade clínica:
 

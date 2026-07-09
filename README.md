@@ -126,9 +126,62 @@ gcc hospital_automatizado_interface_Linux.c -o hospital_interface_linux -pthread
 
 Na interface, pressione `q` para encerrar. Ao iniciar, essa versão também tenta abrir o dashboard automaticamente no navegador.
 
-## Observações
+### Fluxo Completo do sistema
 
-O arquivo `hospital_automatizado.c` foi pensado para ambiente Windows, pois depende de `<windows.h>`. Para Linux, use as versões com sufixo `_Linux.c`. Já o dashboard web pode ser aberto em qualquer navegador moderno. Os arquivos `.exe` incluídos são executáveis já compilados para Windows.
+```
+                 TRIAGEM
+                     │
+                     ▼
+       Gera paciente aleatoriamente
+                     │
+                     ▼
+      Insere na fila por prioridade
+                     │
+                     ▼
+        Acorda o MAQUEIRO
+                     │
+         ┌───────────┴───────────┐
+         │                       │
+         ▼                       ▼
+ Existe consultório?        Não existe?
+         │                       │
+         ▼                       │
+Leva paciente ao consultório     │
+         │                       │
+         ▼                       │
+      CONSULTÓRIO                │
+         │                       │
+         ▼                       │
+     Atendimento                 │
+         │                       │
+         ▼                       │
+Aguardando maqueiro ◄────────────┘
+         │
+         ▼
+      MAQUEIRO
+         │
+         ▼
+Existe vaga na recuperação?
+         │
+    ┌────┴────┐
+    │         │
+   Sim       Não
+    │         │
+    ▼         ▼
+Leva paciente  Espera vaga
+    │
+    ▼
+ RECUPERAÇÃO
+    │
+    ▼
+ Recebe alta
+    │
+    ▼
+ Libera leito
+    │
+    ▼
+ Acorda maqueiro
+```
 
 ### Membros do Grupo
 - Pedro Vinicius; 
